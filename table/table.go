@@ -53,6 +53,14 @@ func CreateTable(tblOpts *TableOptions, clkHdlr func(cell widget.TableCellID)) (
 		})
 
 	tbl.OnSelected = clkHdlr
+
+	refWidth := widget.NewLabel(tblOpts.RefWidth).MinSize().Width
+
+	// Set Column widths
+	for i, colAttr := range tblOpts.ColAttrs {
+		tbl.SetColumnWidth(i, float32(colAttr.WidthPercent)/100.0*refWidth)
+	}
+
 	return
 }
 

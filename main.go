@@ -23,21 +23,23 @@ var animals = []Animal{
 	{Name: "Mickey", Type: "mouse", Color: "black", Weight: "1"},
 }
 
-var animalCols = []table.ColAttr{
+var AnimalCols = []table.ColAttr{
 	{ColName: "Name", Header: "Name", WidthPercent: 100},
-	{ColName: "Type", Header: "Type", WidthPercent: 67},
+	{ColName: "Type", Header: "Type", WidthPercent: 66},
 	{ColName: "Color", Header: "Color", WidthPercent: 100},
-	{ColName: "Weight", Header: "Weight", WidthPercent: 67},
+	{ColName: "Weight", Header: "Weight", WidthPercent: 64},
 }
 
-var animalBindings []binding.DataMap
+var AnimalBindings []binding.DataMap
 
 // Create a binding for each animal data
 func init() {
 	for i := 0; i < len(animals); i++ {
-		animalBindings = append(animalBindings, binding.BindStruct(&animals[i]))
+		AnimalBindings = append(AnimalBindings, binding.BindStruct(&animals[i]))
 	}
 }
+
+// Everything above here can be put into a data package
 
 func main() {
 	ap := app.New()
@@ -45,13 +47,13 @@ func main() {
 
 	tblOpts := &table.TableOptions{
 		RefWidth: "reference width",
-		ColAttrs: animalCols,
-		Bindings: animalBindings,
+		ColAttrs: AnimalCols,
+		Bindings: AnimalBindings,
 	}
 
 	tbl := table.CreateTable(tblOpts,
 		func(cell widget.TableCellID) {
-			if cell.Row == 0 && cell.Col >= 0 && cell.Col < len(animalCols) { // valid hdr cell
+			if cell.Row == 0 && cell.Col >= 0 && cell.Col < len(AnimalCols) { // valid hdr cell
 				fmt.Println("-->", tblOpts.ColAttrs[cell.Col].Header)
 				return
 			}
@@ -65,12 +67,6 @@ func main() {
 		})
 
 	// Layout
-	refWidth := widget.NewLabel(tblOpts.RefWidth).MinSize().Width
-
-	for i := 0; i < len(animalCols); i++ {
-		tbl.SetColumnWidth(i, float32(animalCols[i].WidthPercent)/100.0*refWidth)
-	}
-
 	wn.SetContent(container.NewMax(tbl))
 	wn.Resize(fyne.Size{Width: 500, Height: 450})
 	wn.ShowAndRun()
