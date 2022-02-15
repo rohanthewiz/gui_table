@@ -23,43 +23,46 @@ func main() {
 		Bindings: data.AnimalBindings,
 	}
 
-	tbl := rtable.CreateTable(tblOpts,
-		func(cell widget.TableCellID) {
-			// Bounds check
-			if cell.Row < 0 || cell.Row > len(data.AnimalBindings) { // 1st col is header
-				fmt.Println("*-> Row out of limits")
-				return
-			}
-			if cell.Col < 0 || cell.Col >= len(data.AnimalCols) {
-				fmt.Println("*-> Column out of limits")
-				return
-			}
-			// Handle header row clicked
-			if cell.Row == 0 {
-				fmt.Println("-->", tblOpts.ColAttrs[cell.Col].Header)
-				return
-			}
-			// Handle non-header row clicked
-			str, err := rtable.GetStrCellValue(cell, tblOpts)
-			if err != nil {
-				fmt.Println(rerr.StringFromErr(err))
-				return
-			}
+	tbl := rtable.CreateTable(tblOpts, func(cell widget.TableCellID) {})
+	tbl.OnSelected = func(cell widget.TableCellID) {
+		// Bounds check
+		if cell.Row < 0 || cell.Row > len(data.AnimalBindings) { // 1st col is header
+			fmt.Println("*-> Row out of limits")
+			return
+		}
+		if cell.Col < 0 || cell.Col >= len(data.AnimalCols) {
+			fmt.Println("*-> Column out of limits")
+			return
+		}
+		// Handle header row clicked
+		if cell.Row == 0 {
+			fmt.Println("-->", tblOpts.ColAttrs[cell.Col].Header)
+			tblOpts.Bindings[0] = binding.BindStruct(&data.Animal{Name: "John", Type: "Human",
+				Color: "brown", Weight: "170"})
+			tbl.Refresh()
+			return
+		}
+		// Handle non-header row clicked
+		str, err := rtable.GetStrCellValue(cell, tblOpts)
+		if err != nil {
+			fmt.Println(rerr.StringFromErr(err))
+			return
+		}
 
-			rowBinding := tblOpts.Bindings[cell.Row-1]
-			cellBinding, err := rowBinding.GetItem(tblOpts.ColAttrs[cell.Col].ColName)
-			if err != nil {
-				fmt.Println(rerr.StringFromErr(err))
-				return
-			}
+		rowBinding := tblOpts.Bindings[cell.Row-1]
+		cellBinding, err := rowBinding.GetItem(tblOpts.ColAttrs[cell.Col].ColName)
+		if err != nil {
+			fmt.Println(rerr.StringFromErr(err))
+			return
+		}
 
-			err = cellBinding.(binding.String).Set(rvsString(str))
-			if err != nil {
-				fmt.Println(rerr.StringFromErr(err))
-				return
-			}
-			fmt.Println("-->", str)
-		})
+		err = cellBinding.(binding.String).Set(rvsString(str))
+		if err != nil {
+			fmt.Println(rerr.StringFromErr(err))
+			return
+		}
+		fmt.Println("-->", str)
+	}
 
 	// Layout
 	wn.SetContent(container.NewMax(tbl))
