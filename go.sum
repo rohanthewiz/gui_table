@@ -36,6 +36,8 @@ github.com/rohanthewiz/rerr v0.1.0 h1:YEK/Fls4MFq36VveTuaxOWRiJL0OZwyKiIJBzMUtBs
 github.com/rohanthewiz/rerr v0.1.0/go.mod h1:oxl1qq5YCma7A+KsBj+bhvkWW1jHs4tQ9hsDZOeEVXo=
 github.com/rohanthewiz/rtable v0.1.1 h1:ED9HuMLl7p5Yfdsc+WfWNWRrhYFtPMT+UkQ1FpmS3WU=
 github.com/rohanthewiz/rtable v0.1.1/go.mod h1:U4DGp1895GmGIu1CBb+mIKmI86JIqxwuGWT8Vugocgc=
+github.com/rohanthewiz/rtable v0.1.2 h1:VFiOINZeQlS3UNYT42GxKPIGOAKQMhClg3pCgZWnOh8=
+github.com/rohanthewiz/rtable v0.1.2/go.mod h1:U4DGp1895GmGIu1CBb+mIKmI86JIqxwuGWT8Vugocgc=
 github.com/russross/blackfriday/v2 v2.0.1/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/spf13/afero v1.1.2/go.mod h1:j4pytiNVoe2o6bmDsKpLACNPDBIoEAkihy7loJ1B0CQ=

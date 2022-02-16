@@ -23,7 +23,7 @@ func main() {
 		Bindings: data.AnimalBindings,
 	}
 
-	tbl := rtable.CreateTable(tblOpts, func(cell widget.TableCellID) {})
+	tbl := rtable.CreateTable(tblOpts)
 	tbl.OnSelected = func(cell widget.TableCellID) {
 		// Bounds check
 		if cell.Row < 0 || cell.Row > len(data.AnimalBindings) { // 1st col is header
