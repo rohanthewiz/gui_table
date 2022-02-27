@@ -6,16 +6,18 @@ import (
 )
 
 type Animal struct {
+	Selected                  bool
 	Name, Type, Color, Weight string
 }
 
 var animals = []Animal{
 	{Name: "Frisky", Type: "cat", Color: "gray", Weight: "10"},
-	{Name: "Ella", Type: "dog", Color: "brown", Weight: "50"},
+	{Name: "Rover", Type: "dog", Color: "brown", Weight: "50"},
 	{Name: "Mickey", Type: "mouse", Color: "black", Weight: "1"},
 }
 
 var AnimalCols = []rtable.ColAttr{
+	{ColName: "Selected", Header: "Select", WidthPercent: 64},
 	{ColName: "Name", Header: "Name", WidthPercent: 100},
 	{ColName: "Type", Header: "Type", WidthPercent: 66},
 	{ColName: "Color", Header: "Color", WidthPercent: 100},

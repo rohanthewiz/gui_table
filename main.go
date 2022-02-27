@@ -23,9 +23,23 @@ func main() {
 		Bindings: data.AnimalBindings,
 	}
 
-	tbl := rtable.CreateTable(tblOpts)
+	tbl := rtable.CreateTable(tblOpts, func(state bool, row, col int) {
+		fmt.Println("Yup. Got that click! row:", row, "col:", col, "state:", state)
+		rowBinding := tblOpts.Bindings[row-1]
+		cellBinding, err := rowBinding.GetItem(tblOpts.ColAttrs[col].ColName)
+		if err != nil {
+			fmt.Println(rerr.StringFromErr(err))
+			return
+		}
+		err = cellBinding.(binding.Bool).Set(state)
+		if err != nil {
+			fmt.Println(rerr.StringFromErr(err))
+			return
+		}
+	})
 
 	tbl.OnSelected = func(cell widget.TableCellID) {
+		fmt.Println("In table handler -> Row", cell.Row, "Col", cell.Col)
 		// Bounds check
 		if cell.Row < 0 || cell.Row > len(data.AnimalBindings) { // 1st col is header
 			fmt.Println("*-> Row out of limits")
@@ -48,13 +62,26 @@ func main() {
 		}
 
 		// Handle non-header row clicked
+
+		// The table selected event is not firing when the checkbox clicked
+		// // Handle checkbox clicked
+		// if cell.Col == 0 {
+		// 	val, err := rtable.GetBoolCellValue(cell, tblOpts)
+		// 	if err != nil {
+		// 		fmt.Println(rerr.StringFromErr(err))
+		// 		return
+		// 	}
+		// 	fmt.Println("*--> Checkbox status", val)
+		// 	return
+		// }
+
 		str, err := rtable.GetStrCellValue(cell, tblOpts)
 		if err != nil {
 			fmt.Println(rerr.StringFromErr(err))
 			return
 		}
 
-		// Printout body cells
+		// Get to the string binding and reverse the string
 		rowBinding := tblOpts.Bindings[cell.Row-1]
 		cellBinding, err := rowBinding.GetItem(tblOpts.ColAttrs[cell.Col].ColName)
 		if err != nil {
